@@ -22,6 +22,9 @@
 package pl.treksoft.kvision.core
 
 import pl.treksoft.kvision.utils.asString
+import kotlin.properties.ObservableProperty
+import kotlin.properties.ReadWriteProperty
+import kotlin.reflect.KProperty
 
 /**
  * Base class for components supporting CSS styling.
@@ -30,179 +33,95 @@ abstract class StyledComponent : Component {
     /**
      * Width of the current component.
      */
-    open var width: CssSize? = null
-        set(value) {
-            field = value
-            refresh()
-        }
+    open var width : CssSize? by refreshOnUpdate(null)
     /**
      * Minimal width of the current component.
      */
-    var minWidth: CssSize? = null
-        set(value) {
-            field = value
-            refresh()
-        }
+    var minWidth : CssSize? by refreshOnUpdate(null)
     /**
      * Maximal width of the current component.
      */
-    var maxWidth: CssSize? = null
-        set(value) {
-            field = value
-            refresh()
-        }
+    var maxWidth : CssSize? by refreshOnUpdate(null)
     /**
      * Height of the current component.
      */
-    var height: CssSize? = null
-        set(value) {
-            field = value
-            refresh()
-        }
+    open var height : CssSize? by refreshOnUpdate(null)
+    /**
+     * Height of the current component.
+     */
+    var heightby : CssSize? by refreshOnUpdate(null)
     /**
      * Minimal height of the current component.
      */
-    var minHeight: CssSize? = null
-        set(value) {
-            field = value
-            refresh()
-        }
+    var minHeight : CssSize? by refreshOnUpdate(null)
     /**
      * Maximal height of the current component.
      */
-    var maxHeight: CssSize? = null
-        set(value) {
-            field = value
-            refresh()
-        }
+    var maxHeight : CssSize? by refreshOnUpdate(null)
     /**
      * Border of the current component.
      */
-    var border: Border? = null
-        set(value) {
-            field = value
-            refresh()
-        }
+    var border : Border? by refreshOnUpdate(null)
     /**
      * Top border of the current component.
      */
-    var borderTop: Border? = null
-        set(value) {
-            field = value
-            refresh()
-        }
+    var borderTop : Border? by refreshOnUpdate(null)
     /**
      * Right border of the current component.
      */
-    var borderRight: Border? = null
-        set(value) {
-            field = value
-            refresh()
-        }
+    var borderRight : Border? by refreshOnUpdate(null)
     /**
      * Bottom border of the current component.
      */
-    var borderBottom: Border? = null
-        set(value) {
-            field = value
-            refresh()
-        }
+    var borderBottom : Border? by refreshOnUpdate(null)
     /**
      * Left border of the current component.
      */
-    var borderLeft: Border? = null
-        set(value) {
-            field = value
-            refresh()
-        }
+    var borderLeft : Border? by refreshOnUpdate(null)
     /**
      * Margin of the current component.
      */
-    var margin: CssSize? = null
-        set(value) {
-            field = value
-            refresh()
-        }
+    var margin : CssSize? by refreshOnUpdate(null)
     /**
      * Top margin of the current component.
      */
-    var marginTop: CssSize? = null
-        set(value) {
-            field = value
-            refresh()
-        }
+    var marginTop : CssSize? by refreshOnUpdate(null)
     /**
      * Right margin of the current component.
      */
-    var marginRight: CssSize? = null
-        set(value) {
-            field = value
-            refresh()
-        }
+    var marginRight : CssSize? by refreshOnUpdate(null)
     /**
      * Bottom margin of the current component.
      */
-    var marginBottom: CssSize? = null
-        set(value) {
-            field = value
-            refresh()
-        }
+    var marginBottom : CssSize? by refreshOnUpdate(null)
     /**
      * Left margin of the current component.
      */
-    var marginLeft: CssSize? = null
-        set(value) {
-            field = value
-            refresh()
-        }
+    var marginLeft : CssSize? by refreshOnUpdate(null)
     /**
      * Padding of the current component.
      */
-    var padding: CssSize? = null
-        set(value) {
-            field = value
-            refresh()
-        }
+    var padding : CssSize? by refreshOnUpdate(null)
     /**
      * Top padding of the current component.
      */
-    var paddingTop: CssSize? = null
-        set(value) {
-            field = value
-            refresh()
-        }
+    var paddingTop : CssSize? by refreshOnUpdate(null)
     /**
      * Right padding of the current component.
      */
-    var paddingRight: CssSize? = null
-        set(value) {
-            field = value
-            refresh()
-        }
+    var paddingRight : CssSize? by refreshOnUpdate(null)
     /**
      * Bottom padding of the current component.
      */
-    var paddingBottom: CssSize? = null
-        set(value) {
-            field = value
-            refresh()
-        }
+    var paddingBottom : CssSize? by refreshOnUpdate(null)
     /**
      * Left padding of the current component.
      */
-    var paddingLeft: CssSize? = null
-        set(value) {
-            field = value
-            refresh()
-        }
+    var paddingLeft : CssSize? by refreshOnUpdate(null)
     /**
      * Text color for the current component.
      */
-    var color: Color? = null
-        set(value) {
-            field = value
-            refresh()
-        }
+    var color : Color? by refreshOnUpdate(null)
     /**
      * Text color for the current component given in hex format (write only).
      *
@@ -234,19 +153,11 @@ abstract class StyledComponent : Component {
     /**
      * Opacity of the current component.
      */
-    var opacity: Double? = null
-        set(value) {
-            field = value
-            refresh()
-        }
+    var opacity by refreshOnUpdate<Double?>(null)
     /**
      * Background of the current component.
      */
-    var background: Background? = null
-        set(value) {
-            field = value
-            refresh()
-        }
+    var background : Background? by refreshOnUpdate(null)
 
 
     private var snStyleCache: List<StringPair>? = null
@@ -351,4 +262,15 @@ abstract class StyledComponent : Component {
         }
         return snstyle
     }
+
+    protected fun <T> refreshOnUpdate(initialValue: T, onChangeOnly: Boolean = false): ReadWriteProperty<Any?, T> {
+        val onChange = if (onChangeOnly) { old: T, new: T -> if (old != new) refresh() } else { _: T, _: T -> refresh() }
+        return object : ObservableProperty<T>(initialValue) {
+            override fun afterChange(property: KProperty<*>, oldValue: T, newValue: T) {
+                onChange(oldValue, newValue)
+            }
+        }
+    }
+
 }
+

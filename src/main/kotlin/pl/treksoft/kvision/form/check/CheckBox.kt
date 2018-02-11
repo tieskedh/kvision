@@ -106,27 +106,16 @@ open class CheckBox(
     /**
      * The style (one of Bootstrap standard colors) of the input.
      */
-    var style: CHECKBOXSTYLE? = null
-        set(value) {
-            field = value
-            refresh()
-        }
+    var style: CHECKBOXSTYLE? by refreshOnUpdate(null)
+
     /**
      * Determines if the checkbox is rendered as a circle.
      */
-    var circled: Boolean = false
-        set(value) {
-            field = value
-            refresh()
-        }
+    var circled: Boolean by refreshOnUpdate(false)
     /**
      * Determines if the checkbox is rendered inline.
      */
-    var inline: Boolean = false
-        set(value) {
-            field = value
-            refresh()
-        }
+    var inline: Boolean by refreshOnUpdate(false)
     /**
      * The size of the input.
      */

@@ -56,41 +56,22 @@ open class Widget(classes: Set<String> = setOf()) : StyledComponent() {
 
     override var parent: Component? = null
 
-    override var visible: Boolean = true
-        set(value) {
-            val oldField = field
-            field = value
-            if (oldField != field) refresh()
-        }
+    override var visible by refreshOnUpdate(true, onChangeOnly = true)
     /**
      * A title attribute of generated HTML element.
      */
-    var title: String? = null
-        set(value) {
-            field = value
-            refresh()
-        }
+    var title: String? by refreshOnUpdate(null)
+
     /**
      * An ID attribute of generated HTML element.
      */
-    var id: String? = null
-        set(value) {
-            field = value
-            refresh()
-        }
+    var id: String? by refreshOnUpdate(null)
     /**
      * A role attribute of generated HTML element.
      */
-    var role: String? = null
-        set(value) {
-            field = value
-            refresh()
-        }
-    internal var surroundingSpan: Boolean = false
-        set(value) {
-            field = value
-            refresh()
-        }
+    var role: String? by refreshOnUpdate(null)
+
+    internal var surroundingSpan by refreshOnUpdate(false)
     internal var eventTarget: Widget? = null
 
     private var vnode: VNode? = null
