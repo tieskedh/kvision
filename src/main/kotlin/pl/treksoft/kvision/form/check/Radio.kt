@@ -116,27 +116,15 @@ open class Radio(
     /**
      * The style (one of Bootstrap standard colors) of the input.
      */
-    var style: RADIOSTYLE? = null
-        set(value) {
-            field = value
-            refresh()
-        }
+    var style: RADIOSTYLE? by refreshOnUpdate(null)
     /**
      * Determines if the radio button is rendered as a square.
      */
-    var squared: Boolean = false
-        set(value) {
-            field = value
-            refresh()
-        }
+    var squared: Boolean by refreshOnUpdate(false)
     /**
      * Determines if the radio button is rendered inline.
      */
-    var inline: Boolean = false
-        set(value) {
-            field = value
-            refresh()
-        }
+    var inline: Boolean by refreshOnUpdate(false)
     /**
      * The size of the input.
      */

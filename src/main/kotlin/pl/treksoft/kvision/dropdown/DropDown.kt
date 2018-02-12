@@ -22,19 +22,11 @@
 package pl.treksoft.kvision.dropdown
 
 import com.github.snabbdom.VNode
-import pl.treksoft.kvision.core.Component
-import pl.treksoft.kvision.core.CssSize
-import pl.treksoft.kvision.core.StringBoolPair
-import pl.treksoft.kvision.core.StringPair
-import pl.treksoft.kvision.html.BUTTONSTYLE
-import pl.treksoft.kvision.html.Button
-import pl.treksoft.kvision.html.LISTTYPE
-import pl.treksoft.kvision.html.Link
-import pl.treksoft.kvision.html.ListTag
-import pl.treksoft.kvision.html.TAG
-import pl.treksoft.kvision.html.Tag
+import pl.treksoft.kvision.core.*
+import pl.treksoft.kvision.html.*
 import pl.treksoft.kvision.panel.SimplePanel
 import pl.treksoft.kvision.utils.obj
+import kotlin.coroutines.experimental.EmptyCoroutineContext.get
 
 /**
  * Useful options for use in DropDown's *elements* parameter.
@@ -59,16 +51,19 @@ enum class DD(val option: String) {
 open class DropDown(
     text: String, elements: List<StringPair>? = null, icon: String? = null,
     style: BUTTONSTYLE = BUTTONSTYLE.DEFAULT, disabled: Boolean = false,
-    classes: Set<String> = setOf()
-) : SimplePanel(classes) {
+    classes: Set<String> = setOf(), valueMap: ValueMap
+) : SimplePanel(classes, valueMap) {
+    private val idc = "kv_dropdown_" + counter
+
+    internal val button: DropDownButton = DropDownButton(
+            idc, text, icon, style,
+            disabled, setOf("dropdown"), ValueMap()
+    )
     /**
      * Label of the dropdown button.
      */
-    var text
-        get() = button.text
-        set(value) {
-            button.text = value
-        }
+    var text : String by button.valueMap
+
     private var elements = elements
         set(value) {
             field = value
@@ -77,59 +72,35 @@ open class DropDown(
     /**
      * The icon of the dropdown button.
      */
-    var icon
-        get() = button.icon
-        set(value) {
-            button.icon = value
-        }
+    var icon : String? by button.valueMap
+
     /**
      * The style of the dropdown button.
      */
-    var style
-        get() = button.style
-        set(value) {
-            button.style = value
-        }
+    var style : BUTTONSTYLE by button.valueMap
+
     /**
      * The size of the dropdown button.
      */
-    var size
-        get() = button.size
-        set(value) {
-            button.size = value
-        }
+    var size : BUTTONSIZE by button.valueMap
+
     /**
      * Determines if the dropdown button takes all the space horizontally.
      */
-    var block
-        get() = button.block
-        set(value) {
-            button.block = value
-        }
+    var block : Boolean by button.valueMap
+
     /**
      * Determines if the dropdown is disabled.
      */
-    var disabled
-        get() = button.disabled
-        set(value) {
-            button.disabled = value
-        }
+    var disabled : Boolean by button.valueMap
     /**
      * The image on the dropdown button.
      */
-    var image
-        get() = button.image
-        set(value) {
-            button.image = value
-        }
+    var image : ResString? by button.valueMap
     /**
      * Determines if the dropdown is showing upwards.
      */
-    var dropup = false
-        set(value) {
-            field = value
-            refresh()
-        }
+    var dropup : Boolean by refreshOnUpdate(false)
     /**
      * Width of the dropdown button.
      */
@@ -140,11 +111,7 @@ open class DropDown(
             button.width = value
         }
 
-    private val idc = "kv_dropdown_" + counter
-    internal val button: DropDownButton = DropDownButton(
-        idc, text, icon, style,
-        disabled, setOf("dropdown")
-    )
+
     internal val list: DropDownListTag = DropDownListTag(idc, setOf("dropdown-menu"))
 
     init {
@@ -241,9 +208,9 @@ open class DropDown(
 
 internal class DropDownButton(
     id: String, text: String, icon: String? = null, style: BUTTONSTYLE = BUTTONSTYLE.DEFAULT,
-    disabled: Boolean = false, classes: Set<String> = setOf()
+    disabled: Boolean = false, classes: Set<String> = setOf(), valueMap: ValueMap
 ) :
-    Button(text, icon, style, disabled, classes) {
+    Button(text, icon, style, disabled, classes, valueMap) {
 
     init {
         this.id = id

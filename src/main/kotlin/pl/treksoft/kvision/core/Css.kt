@@ -256,6 +256,7 @@ enum class BGCLIP(internal val clip: String) {
     CONTENT("content-box")
 }
 
+
 /**
  * Type-safe definition of CSS border.
  */

@@ -80,19 +80,11 @@ open class SelectInput(
     /**
      * The name attribute of the generated HTML select element.
      */
-    var name: String? = null
-        set(value) {
-            field = value
-            refresh()
-        }
+    var name: String? by refreshOnUpdate(null)
     /**
      * Determines if multiple value selection is allowed.
      */
-    var multiple: Boolean = multiple
-        set(value) {
-            field = value
-            refresh()
-        }
+    var multiple: Boolean by refreshOnUpdate(multiple)
     /**
      * Additional options for remote (AJAX) data source.
      */
@@ -105,51 +97,27 @@ open class SelectInput(
     /**
      * Maximal number of selected options.
      */
-    var maxOptions: Int? = null
-        set(value) {
-            field = value
-            refresh()
-        }
+    var maxOptions: Int? by refreshOnUpdate(null)
     /**
      * Determines if live search is available.
      */
-    var liveSearch: Boolean = false
-        set(value) {
-            field = value
-            refresh()
-        }
+    var liveSearch: Boolean by refreshOnUpdate(false)
     /**
      * The placeholder for the select control.
      */
-    var placeholder: String? = null
-        set(value) {
-            field = value
-            refresh()
-        }
+    var placeholder: String? by refreshOnUpdate(null)
     /**
      * The style of the select control.
      */
-    var style: BUTTONSTYLE? = null
-        set(value) {
-            field = value
-            refresh()
-        }
+    var style: BUTTONSTYLE? by refreshOnUpdate(null)
     /**
      * The width of the select control.
      */
-    var selectWidth: CssSize? = null
-        set(value) {
-            field = value
-            refresh()
-        }
+    var selectWidth: CssSize? by refreshOnUpdate(null)
     /**
      * The width type of the select control.
      */
-    var selectWidthType: SELECTWIDTHTYPE? = null
-        set(value) {
-            field = value
-            refresh()
-        }
+    var selectWidthType: SELECTWIDTHTYPE? by refreshOnUpdate(null)
     /**
      * Determines if an empty option is automatically generated.
      */
@@ -161,27 +129,15 @@ open class SelectInput(
     /**
      * Determines if the field is disabled.
      */
-    var disabled: Boolean = false
-        set(value) {
-            field = value
-            refresh()
-        }
+    var disabled: Boolean by refreshOnUpdate(false)
     /**
      * Determines if the select is automatically focused.
      */
-    var autofocus: Boolean? = null
-        set(value) {
-            field = value
-            refresh()
-        }
+    var autofocus: Boolean? by refreshOnUpdate(null)
     /**
      * The size of the input.
      */
-    var size: INPUTSIZE? = null
-        set(value) {
-            field = value
-            refresh()
-        }
+    var size: INPUTSIZE?by refreshOnUpdate(null)
 
     init {
         setChildrenFromOptions()

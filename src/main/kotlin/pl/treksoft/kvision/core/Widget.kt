@@ -47,7 +47,7 @@ import pl.treksoft.kvision.utils.snStyle
  * @param classes Set of CSS class names
  */
 @Suppress("TooManyFunctions", "LargeClass")
-open class Widget(classes: Set<String> = setOf()) : StyledComponent() {
+open class Widget(classes: Set<String> = setOf(), valueMap : ValueMap) : StyledComponent(valueMap) {
 
     internal val classes = classes.toMutableSet()
     internal val surroundingClasses: MutableSet<String> = mutableSetOf()
@@ -56,7 +56,7 @@ open class Widget(classes: Set<String> = setOf()) : StyledComponent() {
 
     override var parent: Component? = null
 
-    override var visible by refreshOnUpdate(true, onChangeOnly = true)
+    override var visible : Boolean by refreshOnUpdate(true, onChangeOnly = true)
     /**
      * A title attribute of generated HTML element.
      */
@@ -71,7 +71,7 @@ open class Widget(classes: Set<String> = setOf()) : StyledComponent() {
      */
     var role: String? by refreshOnUpdate(null)
 
-    internal var surroundingSpan by refreshOnUpdate(false)
+    internal var surroundingSpan : Boolean by refreshOnUpdate(false)
     internal var eventTarget: Widget? = null
 
     private var vnode: VNode? = null
@@ -195,17 +195,7 @@ open class Widget(classes: Set<String> = setOf()) : StyledComponent() {
      * @return list of element attributes
      */
     protected open fun getSnAttrs(): List<StringPair> {
-        val snattrs = mutableListOf<StringPair>()
-        id?.let {
-            snattrs.add("id" to it)
-        }
-        title?.let {
-            snattrs.add("title" to it)
-        }
-        role?.let {
-            snattrs.add("role" to it)
-        }
-        return snattrs
+        return valueMap.getValues("id", "title", "role").map { (k,v)->k to v.toString() }
     }
 
     /**

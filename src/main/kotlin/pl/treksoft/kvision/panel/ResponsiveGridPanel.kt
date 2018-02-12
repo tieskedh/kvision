@@ -52,9 +52,9 @@ internal data class WidgetParam(val widget: Component, val size: Int, val offset
  * @param classes a set of CSS class names
  */
 open class ResponsiveGridPanel(
-    private val gridsize: GRIDSIZE = GRIDSIZE.MD,
-    private var rows: Int = 0, private var cols: Int = 0, align: ALIGN? = null,
-    classes: Set<String> = setOf()
+        private val gridsize: GRIDSIZE = GRIDSIZE.MD,
+        private var rows: Int = 0, private var cols: Int = 0, align: ALIGN? = null,
+        classes: Set<String> = setOf()
 ) : SimplePanel(classes) {
 
     /**
@@ -79,8 +79,8 @@ open class ResponsiveGridPanel(
      * @return this container
      */
     open fun add(child: Component, col: Int, row: Int, size: Int = 0, offset: Int = 0): ResponsiveGridPanel {
-        val cRow = if (row < 0) 0 else row
-        val cCol = if (col < 0) 0 else col
+        val cRow = maxOf(row, 0)
+        val cCol = maxOf(col, 0)
         if (row > rows - 1) rows = cRow + 1
         if (col > cols - 1) cols = cCol + 1
         map.getOrPut(cRow, { mutableMapOf() })[cCol] = WidgetParam(child, size, offset)
@@ -100,16 +100,9 @@ open class ResponsiveGridPanel(
 
     @Suppress("NestedBlockDepth")
     override fun remove(child: Component): ResponsiveGridPanel {
-        for (i in 0 until rows) {
-            val row = map[i]
-            if (row != null) {
-                for (j in 0 until cols) {
-                    val wp = row[j]
-                    if (wp != null) {
-                        if (wp.widget == child) row.remove(j)
-                    }
-                }
-            }
+        map.values.forEach { row ->
+            row.filterValues { it.widget == child }
+                    .forEach { (i, _) -> row.remove(i) }
         }
         refreshRowContainers()
         return this
@@ -132,12 +125,12 @@ open class ResponsiveGridPanel(
         singleRender {
             clearRowContainers()
             val num = MAX_COLUMNS / cols
+
             for (i in 0 until rows) {
                 val rowContainer = SimplePanel(setOf("row"))
                 val row = map[i]
                 if (row != null) {
-                    for (j in 0 until cols) {
-                        val wp = row[j]
+                    (0 until cols).map { row[it] }.forEach { wp ->
                         if (auto) {
                             val widget = wp?.widget?.let {
                                 WidgetWrapper(it, setOf("col-" + gridsize.size + "-" + num))

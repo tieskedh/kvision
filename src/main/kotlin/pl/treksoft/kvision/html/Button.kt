@@ -23,10 +23,7 @@ package pl.treksoft.kvision.html
 
 import com.github.snabbdom.VNode
 import org.w3c.dom.events.MouseEvent
-import pl.treksoft.kvision.core.ResString
-import pl.treksoft.kvision.core.StringBoolPair
-import pl.treksoft.kvision.core.StringPair
-import pl.treksoft.kvision.core.Widget
+import pl.treksoft.kvision.core.*
 
 /**
  * Button styles.
@@ -62,65 +59,38 @@ enum class BUTTONSIZE(internal val className: String) {
  */
 open class Button(
     text: String, icon: String? = null, style: BUTTONSTYLE = BUTTONSTYLE.DEFAULT,
-    disabled: Boolean = false, classes: Set<String> = setOf()
-) : Widget(classes) {
+    disabled: Boolean = false, classes: Set<String> = setOf(),
+    valueMap: ValueMap
+) : Widget(classes, valueMap) {
 
     /**
      * Button label.
      */
-    var text = text
-        set(value) {
-            field = value
-            refresh()
-        }
+    var text : String by refreshOnUpdate(text)
     /**
      * Button icon.
      */
-    var icon = icon
-        set(value) {
-            field = value
-            refresh()
-        }
+    var icon : String? by refreshOnUpdate(icon)
     /**
      * Button style.
      */
-    var style = style
-        set(value) {
-            field = value
-            refresh()
-        }
+    var style : BUTTONSTYLE by refreshOnUpdate(style)
     /**
      * Determines if button is disabled.
      */
-    var disabled = disabled
-        set(value) {
-            field = value
-            refresh()
-        }
+    var disabled : Boolean by refreshOnUpdate(disabled)
     /**
      * Button image.
      */
-    var image: ResString? = null
-        set(value) {
-            field = value
-            refresh()
-        }
+    var image: ResString? by refreshOnUpdate(null)
     /**
      * Button size.
      */
-    var size: BUTTONSIZE? = null
-        set(value) {
-            field = value
-            refresh()
-        }
+    var size: BUTTONSIZE? by refreshOnUpdate(null)
     /**
      * Determines if the button takes all the space horizontally.
      */
-    var block = false
-        set(value) {
-            field = value
-            refresh()
-        }
+    var block : Boolean by refreshOnUpdate(false)
 
     override fun render(): VNode {
         val t = createLabelWithIcon(text, icon, image)

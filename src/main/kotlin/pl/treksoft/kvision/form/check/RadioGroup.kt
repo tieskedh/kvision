@@ -71,11 +71,7 @@ open class RadioGroup(
     /**
      * Determines if the options are rendered inline.
      */
-    var inline: Boolean = inline
-        set(value) {
-            field = value
-            refresh()
-        }
+    var inline: Boolean by refreshOnUpdate(inline)
 
     override var disabled
         get() = getDisabledFromChildren()
@@ -136,7 +132,7 @@ open class RadioGroup(
     }
 
     private fun getDisabledFromChildren(): Boolean {
-        return getChildren().filterIsInstance<Radio>().map { it.disabled }.firstOrNull() ?: false
+        return getChildren().filterIsInstance<Radio>().firstOrNull()?.disabled ?: false
     }
 
     private fun setDisabledToChildren(disabled: Boolean) {

@@ -75,51 +75,27 @@ open class DateTimeInput(
     /**
      * The placeholder for the date/time input.
      */
-    var placeholder: String? = null
-        set(value) {
-            field = value
-            refresh()
-        }
+    var placeholder: String? by refreshOnUpdate(null)
     /**
      * The name attribute of the generated HTML input element.
      */
-    var name: String? = null
-        set(value) {
-            field = value
-            refresh()
-        }
+    var name: String? by refreshOnUpdate(null)
     /**
      * Determines if the field is disabled.
      */
-    var disabled: Boolean = false
-        set(value) {
-            field = value
-            refresh()
-        }
+    var disabled: Boolean by refreshOnUpdate(false)
     /**
      * Determines if the text input is automatically focused.
      */
-    var autofocus: Boolean? = null
-        set(value) {
-            field = value
-            refresh()
-        }
+    var autofocus : Boolean? by refreshOnUpdate(null)
     /**
      * Determines if the date/time input is read-only.
      */
-    var readonly: Boolean? = null
-        set(value) {
-            field = value
-            refresh()
-        }
+    var readonly: Boolean? by refreshOnUpdate(null)
     /**
      * The size of the input.
      */
-    var size: INPUTSIZE? = null
-        set(value) {
-            field = value
-            refresh()
-        }
+    var size: INPUTSIZE? by refreshOnUpdate(null)
     /**
      * Day of the week start. 0 (Sunday) to 6 (Saturday).
      */

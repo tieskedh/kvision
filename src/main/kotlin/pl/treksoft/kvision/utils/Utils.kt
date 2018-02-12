@@ -141,6 +141,14 @@ fun String.toDateF(format: String = "YYYY-MM-DD HH:mm:ss"): Date {
     return KVManager.fecha.parse(this, format)
 }
 
+internal fun String.capitalsToHyphens() = buildString{
+    forEach { char->
+        val lowerChar = char.toLowerCase()
+        if (lowerChar == char) append(lowerChar)
+        else append("-$lowerChar")
+    }
+}
+
 /**
  * Extension function to convert Date to String with a given date format.
  * @param format date/time format

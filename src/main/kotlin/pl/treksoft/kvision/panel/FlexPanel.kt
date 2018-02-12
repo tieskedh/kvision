@@ -111,44 +111,23 @@ open class FlexPanel(
     /**
      * CSS flexbox wrap mode.
      */
-    var wrap = wrap
-        set(value) {
-            field = value
-            refresh()
-        }
+    var wrap by refreshOnUpdate(wrap)
     /**
      * CSS flexbox content justification.
      */
-    var justify = justify
-        set(value) {
-            field = value
-            refresh()
-        }
+    var justify by refreshOnUpdate(justify)
     /**
      * CSS flexbox items alignment.
      */
-    var alignItems = alignItems
-        set(value) {
-            field = value
-            refresh()
-        }
+    var alignItems by refreshOnUpdate(alignItems)
     /**
      * CSS flexbox content alignment.
      */
-    var alignContent = alignContent
-        set(value) {
-            field = value
-            refresh()
-        }
+    var alignContent by refreshOnUpdate(alignContent)
     /**
      * The spacing between columns/rows.
      */
-    var spacing = spacing
-        set(value) {
-            field = value
-            refreshSpacing()
-            refresh()
-        }
+    var spacing by refreshOnUpdate(spacing)
 
     /**
      * Adds a component to the flexbox container.

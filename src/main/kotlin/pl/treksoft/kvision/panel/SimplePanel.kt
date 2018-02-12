@@ -24,6 +24,7 @@ package pl.treksoft.kvision.panel
 import com.github.snabbdom.VNode
 import pl.treksoft.kvision.core.Component
 import pl.treksoft.kvision.core.Container
+import pl.treksoft.kvision.core.ValueMap
 import pl.treksoft.kvision.core.Widget
 
 /**
@@ -32,7 +33,7 @@ import pl.treksoft.kvision.core.Widget
  * @constructor
  * @param classes a set of CSS class names
  */
-open class SimplePanel(classes: Set<String> = setOf()) : Widget(classes), Container {
+open class SimplePanel(classes: Set<String> = setOf(), valueMap: ValueMap) : Widget(classes, valueMap), Container {
     internal val children: MutableList<Component> = mutableListOf()
 
     override fun render(): VNode {

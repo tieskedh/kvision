@@ -50,11 +50,7 @@ abstract class AbstractTextInput(
     /**
      * Text input value.
      */
-    var value: String? = value
-        set(value) {
-            field = value
-            refreshState()
-        }
+    var value: String? by refreshOnUpdate(value)
     /**
      * The value attribute of the generated HTML input element.
      *
@@ -70,59 +66,31 @@ abstract class AbstractTextInput(
     /**
      * The placeholder for the text input.
      */
-    var placeholder: String? = null
-        set(value) {
-            field = value
-            refresh()
-        }
+    var placeholder: String?by refreshOnUpdate(null)
     /**
      * The name attribute of the generated HTML input element.
      */
-    var name: String? = null
-        set(value) {
-            field = value
-            refresh()
-        }
+    var name: String? by refreshOnUpdate(null)
     /**
      * Maximal length of the text input value.
      */
-    var maxlength: Int? = null
-        set(value) {
-            field = value
-            refresh()
-        }
+    var maxlength: Int? by refreshOnUpdate(null)
     /**
      * Determines if the field is disabled.
      */
-    var disabled: Boolean = false
-        set(value) {
-            field = value
-            refresh()
-        }
+    var disabled: Boolean by refreshOnUpdate(false)
     /**
      * Determines if the text input is automatically focused.
      */
-    var autofocus: Boolean? = null
-        set(value) {
-            field = value
-            refresh()
-        }
+    var autofocus: Boolean? by refreshOnUpdate(null)
     /**
      * Determines if the text input is read-only.
      */
-    var readonly: Boolean? = null
-        set(value) {
-            field = value
-            refresh()
-        }
+    var readonly: Boolean? by refreshOnUpdate(null)
     /**
      * The size of the input.
      */
-    var size: INPUTSIZE? = null
-        set(value) {
-            field = value
-            refresh()
-        }
+    var size: INPUTSIZE? by refreshOnUpdate(null)
 
     override fun getSnClass(): List<StringBoolPair> {
         val cl = super.getSnClass().toMutableList()
